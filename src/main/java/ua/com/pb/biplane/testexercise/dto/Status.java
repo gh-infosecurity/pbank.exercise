@@ -6,5 +6,6 @@ package ua.com.pb.biplane.testexercise.dto;
 public enum  Status {
     OK,
     FAIL,
-    UNKNOW
+    UNKNOW,
+    NO_RESULT
 }

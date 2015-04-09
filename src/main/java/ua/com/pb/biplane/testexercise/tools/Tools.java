@@ -12,16 +12,6 @@ import java.io.File;
  */
 public class Tools {
 
-    public InputDto fillDto() {
-        InputDto dto = new InputDto();
-        dto.setOperation("sum");
-        dto.setChecker(true);
-        dto.setStatus(Status.OK);
-        String [] values = {"123","1q","2"};
-        dto.setValues(values);
-        return dto;
-    }
-
     public File getFile() {
         File file = null;
         JFileChooser chooser = new JFileChooser();
@@ -41,6 +31,15 @@ public class Tools {
     public boolean containsOnlyNumbers(String str) {
         for (int i = 0; i < str.length(); i++) {
             if (!Character.isDigit(str.charAt(i)))
+                return false;
+        }
+        return true;
+    }
+
+
+    public boolean containsOnlyDigit(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isDigit(str.charAt(i)))
                 return false;
         }
         return true;

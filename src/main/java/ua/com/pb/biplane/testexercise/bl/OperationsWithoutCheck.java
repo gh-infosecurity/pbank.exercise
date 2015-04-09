@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by artur on 09.04.15.
  */
-public class OperationsCheck extends Operations{
+public class OperationsWithoutCheck extends Operations{
     Tools tools = new Tools();
 
     @Override

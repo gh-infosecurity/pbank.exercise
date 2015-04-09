@@ -21,7 +21,7 @@ public class Main {
         bl.printReadetData(dto);
 
 //        Tools tools = new Tools();
-//        bl.createExampleXml(tools.fillDto());
+//        bl.writeXml(tools.fillDto());
 
         System.out.println("Finish ! ! !");
     }

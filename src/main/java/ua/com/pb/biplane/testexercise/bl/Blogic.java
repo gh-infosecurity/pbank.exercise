@@ -34,7 +34,7 @@ public class Blogic {
         }
     }
 
-    public void createExampleXml(InputDto dto) throws Exception {
+    public void writeXml(InputDto dto) throws Exception {
         storage.create(dto);
     }
 }
