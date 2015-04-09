@@ -27,7 +27,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ua.com.pb.biplane.testexercise.bl.Main</mainClass>
+                            <mainClass>ua.com.pb.biplane.testexercise.main.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
