@@ -13,11 +13,15 @@ public class Main {
         InputDto dto;
         Blogic bl = new Blogic(args);
 
-        dto = bl.readData();
-        bl.printReadetData(dto);
+//        bl.writeXml(bl.generateExampleDto());
 
-//        Tools tools = new Tools();
-//        bl.writeXml(tools.fillDto());
+        dto = bl.readData();
+
+        System.out.println("----------------------------------------------");
+        bl.runSumNumber(dto);
+        System.out.println("----------------------------------------------");
+        bl.runSumString(dto);
+        System.out.println("----------------------------------------------");
 
         System.out.println("Finish ! ! !");
     }
