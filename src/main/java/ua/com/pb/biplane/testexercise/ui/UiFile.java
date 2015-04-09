@@ -3,6 +3,7 @@ package ua.com.pb.biplane.testexercise.ui;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
 /**
@@ -31,6 +32,8 @@ public class UiFile extends Storage {
 
     public File getFile() {
         JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
+        chooser.setFileFilter(filter);
         int result = chooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION)
             file = chooser.getSelectedFile();
