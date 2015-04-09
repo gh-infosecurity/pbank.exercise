@@ -14,6 +14,9 @@ public class InputDto {
     @Element(name = "checker")
     private boolean checker;
 
+    @Element(name = "result")
+    private String result;
+
     @Element(name = "status")
     private Status status;
 
@@ -53,5 +56,13 @@ public class InputDto {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }

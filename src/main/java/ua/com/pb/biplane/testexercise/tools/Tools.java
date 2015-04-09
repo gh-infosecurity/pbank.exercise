@@ -17,7 +17,7 @@ public class Tools {
         dto.setOperation("sum");
         dto.setChecker(true);
         dto.setStatus(Status.OK);
-        String [] values = {"artur","vasia","petia"};
+        String [] values = {"123","1q","2"};
         dto.setValues(values);
         return dto;
     }
@@ -38,4 +38,11 @@ public class Tools {
         return file;
     }
 
+    public boolean containsOnlyNumbers(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i)))
+                return false;
+        }
+        return true;
+    }
 }
