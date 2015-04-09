@@ -2,6 +2,7 @@ package ua.com.pb.biplane.testexercise.ui;
 
 import org.simpleframework.xml.core.Persister;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
+import ua.com.pb.biplane.testexercise.tools.Tools;
 
 import java.io.File;
 
@@ -22,12 +23,11 @@ abstract public class Storage {
     }
 
 
-    public void create() throws Exception {
-        InputDto dto = new InputDto();
-        dto.operation="sum";
-        String [] values = {"artur","vasia","petia"};
-        dto.values=values;
-
+    public void create(InputDto dto) throws Exception {
+        if (file ==null){
+            Tools tools = new Tools();
+            file = tools.getFile();
+        }
         persister.write(dto, file);
     }
 

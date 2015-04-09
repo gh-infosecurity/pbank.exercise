@@ -2,6 +2,7 @@ package ua.com.pb.biplane.testexercise.main;
 
 import ua.com.pb.biplane.testexercise.bl.Blogic;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
+import ua.com.pb.biplane.testexercise.tools.Tools;
 import ua.com.pb.biplane.testexercise.ui.Storage;
 
 import java.sql.Blob;
@@ -17,11 +18,10 @@ public class Main {
         Blogic bl = new Blogic(args);
 
         dto = bl.readData();
-
         bl.printReadetData(dto);
 
-//        bl.createExampleXml();
-
+//        Tools tools = new Tools();
+//        bl.createExampleXml(tools.fillDto());
 
         System.out.println("Finish ! ! !");
     }

@@ -28,13 +28,13 @@ public class Blogic {
     }
 
     public void printReadetData(InputDto dto) {
-        System.out.println(dto.operation);
-        for (String s:dto.values){
+        System.out.println(dto.getOperation());
+        for (String s:dto.getValues()){
             System.out.println(s);
         }
     }
 
-    public void createExampleXml() throws Exception {
-        storage.create();
+    public void createExampleXml(InputDto dto) throws Exception {
+        storage.create(dto);
     }
 }
