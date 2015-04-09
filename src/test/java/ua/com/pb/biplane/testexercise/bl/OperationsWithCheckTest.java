@@ -51,7 +51,7 @@ public class OperationsWithCheckTest {
         operations = new OperationsWithCheck();
         dto = operations.sumNumbers(dto);
         assertEquals(dto.getResult(), Integer.toString(0));
-//        assertEquals(dto.getStatus(), Status.FAIL);
+        assertEquals(dto.getStatus(), Status.FAIL);
     }
 
     @Test

@@ -46,7 +46,7 @@ public class InputDto {
         this.values = values;
     }
 
-    public boolean isChecker() {
+    public boolean getChecker() {
         return checker;
     }
 

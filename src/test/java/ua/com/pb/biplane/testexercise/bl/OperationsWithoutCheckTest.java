@@ -28,7 +28,7 @@ public class OperationsWithoutCheckTest {
     public static void onceExecutedBeforeAll() throws Exception {
         InputDto dto = new InputDto();
         dto.setOperation("+");
-        dto.setChecker(true);
+        dto.setChecker(false);
         dto.setStatus(Status.UNKNOW);
         String[] values = {"123", "1q", "2", "3g", "5"};
         dto.setValues(values);
