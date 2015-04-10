@@ -12,4 +12,7 @@ abstract class Operations {
 
     abstract public InputDto sumNumbers (InputDto dto);
     abstract public InputDto sumStrings (InputDto dto);
+    abstract public InputDto subtractionNumber(InputDto dto);
+    abstract public InputDto divisionNumber(InputDto dto);
+    abstract public InputDto multiplicationNumber(InputDto dto);
 }

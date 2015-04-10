@@ -21,12 +21,12 @@ public class InputDto {
     private Status status;
 
     @Element(name = "operation")
-    private String operation;
+    private Character operation;
 
     @Element(name = "values")
     private String values[];
 
-    public String getOperation() {
+    public Character getOperation() {
         return operation;
     }
 
@@ -38,7 +38,7 @@ public class InputDto {
         this.checker = checker;
     }
 
-    public void setOperation(String operation) {
+    public void setOperation(Character operation) {
         this.operation = operation;
     }
 

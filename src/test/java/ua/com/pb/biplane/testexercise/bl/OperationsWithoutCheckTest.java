@@ -5,7 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.Status;
-import ua.com.pb.biplane.testexercise.tools.Tools;
+import ua.com.pb.biplane.testexercise.util.Utils;
 
 import static org.junit.Assert.*;
 
@@ -13,21 +13,21 @@ import static org.junit.Assert.*;
  * Created by artur on 09.04.15.
  */
 public class OperationsWithoutCheckTest {
-    Tools tools;
+    Utils tools;
     InputDto dto;
     Operations operations;
     Blogic blogic;
 
     public OperationsWithoutCheckTest() {
-        tools = new Tools();
-        String [] path = {"/tmp/test.xml"};
+        tools = new Utils();
+        String path = "/tmp/test.xml";
         blogic = new Blogic(path);
     }
 
     @BeforeClass
     public static void onceExecutedBeforeAll() throws Exception {
         InputDto dto = new InputDto();
-        dto.setOperation("+");
+        dto.setOperation('+');
         dto.setChecker(false);
         dto.setStatus(Status.UNKNOW);
         String[] values = {"123", "1q", "2", "3g", "5"};
@@ -35,7 +35,7 @@ public class OperationsWithoutCheckTest {
         dto.setResult(Status.NO_RESULT.toString());
 
 
-        String [] path = {"/tmp/test.xml"};
+        String path = "/tmp/test.xml";
         Blogic blogic = new Blogic(path);
         blogic.writeXml(dto);
     }
@@ -51,6 +51,28 @@ public class OperationsWithoutCheckTest {
         operations = new OperationsWithoutCheck();
         dto = operations.sumNumbers(dto);
         assertEquals(dto.getResult(), Integer.toString(130));
+    }
+
+    @Test
+    public void subtractionNumber() throws Exception {
+
+        operations = new OperationsWithoutCheck();
+        dto = operations.subtractionNumber(dto);
+        assertEquals(dto.getResult(), Integer.toString(116));
+    }
+
+    @Test
+    public void divisionNumber() throws Exception {
+        operations = new OperationsWithoutCheck();
+        dto = operations.divisionNumber(dto);
+        assertEquals(dto.getResult(), Integer.toString(12));
+    }
+
+    @Test
+    public void multiplicationNumberNumber() throws Exception {
+        operations = new OperationsWithoutCheck();
+        dto = operations.multiplicationNumber(dto);
+        assertEquals(dto.getResult(), Integer.toString(1230));
     }
 
     @Test

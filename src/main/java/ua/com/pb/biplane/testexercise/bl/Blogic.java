@@ -15,17 +15,14 @@ public class Blogic {
     Storage storage;
     Operations operations;
 
-    public Blogic(String[] args) {
-
-        if (args.length != 0 && !args[0].isEmpty()){
-            filePath=args[0];
+    public Blogic(String filePath) {
+        this.filePath = filePath;
+        if (filePath!="" & filePath!=null){
             storage = new TermFile(filePath);
         }else {
             storage = new UiFile();
         }
     }
-
-
 
 
     public InputDto readData() throws Exception {
@@ -37,16 +34,25 @@ public class Blogic {
         operations.sumNumbers(dto);
     }
 
+    public void runSubtractionNumber(InputDto dto){
+        operations = getRightOperation(dto);
+        operations.subtractionNumber(dto);
+    }
+
+    public void runDivisionNumber(InputDto dto){
+        operations = getRightOperation(dto);
+        operations.divisionNumber(dto);
+    }
+
+    public void runMultiplicationNumber(InputDto dto){
+        operations = getRightOperation(dto);
+        operations.multiplicationNumber(dto);
+    }
+
+
     public void runSumString(InputDto dto){
         operations = getRightOperation(dto);
         operations.sumStrings(dto);
-    }
-
-    public void printReadetData(InputDto dto) {
-        System.out.println(dto.getOperation());
-        for (String s:dto.getValues()){
-            System.out.println(s);
-        }
     }
 
     public void writeXml(InputDto dto) throws Exception {
@@ -55,7 +61,7 @@ public class Blogic {
 
     public InputDto generateExampleDto(){
         InputDto dto = new InputDto();
-        dto.setOperation("+");
+        dto.setOperation('+');
         dto.setChecker(false);
         dto.setStatus(Status.UNKNOW);
         String[] values = {"123", "1q", "2", "3g", "5"};

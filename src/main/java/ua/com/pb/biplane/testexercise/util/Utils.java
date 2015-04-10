@@ -1,7 +1,4 @@
-package ua.com.pb.biplane.testexercise.tools;
-
-import ua.com.pb.biplane.testexercise.dto.InputDto;
-import ua.com.pb.biplane.testexercise.dto.Status;
+package ua.com.pb.biplane.testexercise.util;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -10,7 +7,7 @@ import java.io.File;
 /**
  * Created by artur on 09.04.15.
  */
-public class Tools {
+public class Utils {
 
     public File getFile() {
         File file = null;

@@ -1,4 +1,4 @@
-package ua.com.pb.biplane.testexercise.tools;
+package ua.com.pb.biplane.testexercise.util;
 
 import org.junit.Test;
 
@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
  */
 public class ToolsTest {
 
-    Tools tools = new Tools();
+    Utils tools = new Utils();
 
     @Test
     public void testContaisOnlyDigit_true() throws Exception {

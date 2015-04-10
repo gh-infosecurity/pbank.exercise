@@ -1,7 +1,7 @@
 package ua.com.pb.biplane.testexercise.ui;
 
 import ua.com.pb.biplane.testexercise.dto.InputDto;
-import ua.com.pb.biplane.testexercise.tools.Tools;
+import ua.com.pb.biplane.testexercise.util.Utils;
 
 
 /**
@@ -19,7 +19,7 @@ public class UiFile extends Storage {
 
     @Override
     public InputDto readData() throws Exception {
-        Tools tools = new Tools();
+        Utils tools = new Utils();
         file = tools.getFile();
         InputDto dto = persister.read(InputDto.class, file);
         return dto;

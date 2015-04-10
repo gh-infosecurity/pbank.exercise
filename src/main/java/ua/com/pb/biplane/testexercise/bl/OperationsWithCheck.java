@@ -2,14 +2,14 @@ package ua.com.pb.biplane.testexercise.bl;
 
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.Status;
-import ua.com.pb.biplane.testexercise.tools.Tools;
+import ua.com.pb.biplane.testexercise.util.Utils;
 
 /**
  * Created by artur on 09.04.15.
  */
 public class OperationsWithCheck extends Operations {
 
-    Tools tools = new Tools();
+    Utils tools = new Utils();
 
     @Override
     public InputDto sumNumbers(InputDto dto) {
@@ -60,5 +60,20 @@ public class OperationsWithCheck extends Operations {
         long finish = System.currentTimeMillis();
         logger.info("Status {}, Result {}. Operation {} was {}! in Check {} mode. in {} Millis.", dto.getStatus(), dto.getResult(), dto.getOperation(), dto.getStatus(), dto.getChecker(), (finish - start));
         return dto;
+    }
+
+    @Override
+    public InputDto subtractionNumber(InputDto dto) {
+        return null;
+    }
+
+    @Override
+    public InputDto divisionNumber(InputDto dto) {
+        return null;
+    }
+
+    @Override
+    public InputDto multiplicationNumber(InputDto dto) {
+        return null;
     }
 }
