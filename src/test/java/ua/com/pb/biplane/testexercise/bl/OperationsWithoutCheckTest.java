@@ -2,6 +2,7 @@ package ua.com.pb.biplane.testexercise.bl;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.StateDto;
@@ -24,7 +25,7 @@ public class OperationsWithoutCheckTest {
     StateDto stDto;
     ConfigDto confDto;
 
-    public OperationsWithoutCheckTest() {
+    public OperationsWithoutCheckTest() throws IncorrectConfigData {
         tools = new Utils();
         stDto = new StateDto();
         confDto = new ConfigDto();

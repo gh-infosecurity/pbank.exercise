@@ -1,8 +1,14 @@
 package ua.com.pb.biplane.testexercise.input.fs;
 
+import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
+import ua.com.pb.biplane.testexercise.bl.exceptions.NumberConfigDataTooMatch;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
+import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
+
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,24 +24,19 @@ public class ReadTermFile extends FsStorage {
         confDto = conf;
     }
 
-    public InputDto readInputData() throws Exception {
-        InputDto dto = new InputDto();
-        InputDto readData = persister.read(InputDto.class, file);
+    public InputDto readInputData() throws IncorrectConfigData, IOException, ErrorXML {
+        InputDto dto = null;
 
-        if(readData.getValues().length > confDto.getNumberOfInputElements()){
-            String [] values = Arrays.copyOf(readData.getValues(), confDto.getNumberOfInputElements());
-            dto.setValues(values);
-        }else if(readData.getValues().length < confDto.getNumberOfInputElements()){
-            ArrayList<String>inpLIst = new ArrayList<String>();
-            for(String str:readData.getValues()){
-                inpLIst.add(str);
-            }
-            String [] readed = inpLIst.toArray(new String[inpLIst.size()]);
-            dto.setValues(readed);
-            logger.info("Input data {} el. is a less than set in Config {}."+readed.length, confDto.getNumberOfInputElements());
-        }else {
-            dto = readData;
+        try {
+            dto = persister.read(InputDto.class, file);
+            dto.setValues(getInputValue(dto.getValues()));
+        } catch (NumberConfigDataTooMatch e) {
+            throw new IncorrectConfigData(e.getMessage());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
+        if(isValidXML())
+            return dto;
         return dto;
     }
 

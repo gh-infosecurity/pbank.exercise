@@ -2,9 +2,12 @@ package ua.com.pb.biplane.testexercise.bl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.com.pb.biplane.testexercise.bl.exceptions.IllegalOperationTypeConfigData;
+import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.input.DataController;
+import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
 
 import java.io.IOException;
 
@@ -23,18 +26,18 @@ public class BuisnLog {
     DataController dataController;
     InputDto inDto;
 
-    public BuisnLog(DataController dataController) {
+    public BuisnLog(DataController dataController) throws IncorrectConfigData {
         this.dataController = dataController;
         try {
             this.configDto = dataController.getProperties();
         } catch (IllegalAccessException e) {
-            logger.error(e.getMessage());
+            throw new IllegalOperationTypeConfigData(e.getMessage());
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
 
-    public void doOperation() throws Exception {
+    public void doOperation() throws IncorrectConfigData, IOException, ErrorXML {
         operations = new Operations(configDto);
 
         switch (configDto.getTypeOfOperations()){

@@ -3,14 +3,15 @@ package ua.com.pb.biplane.testexercise.input;
 import org.simpleframework.xml.core.Persister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.enumerations.TypeOfOperations;
 import ua.com.pb.biplane.testexercise.input.fs.FsStorage;
 import ua.com.pb.biplane.testexercise.input.fs.ReadTermFile;
 import ua.com.pb.biplane.testexercise.input.fs.ReadUiFile;
+import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
 import ua.com.pb.biplane.testexercise.input.prop.ReadConfig;
-import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -56,27 +57,16 @@ public class DataController {
         return configDto;
     }
 
-    public InputDto getInputData(ConfigDto confDto) throws Exception {
+    public InputDto getInputData(ConfigDto confDto) throws IncorrectConfigData, IOException, ErrorXML {
         FsStorage fsStorage;
-        InputDto inputDto;
 
         if(path!=null){
             fsStorage = new ReadTermFile(confDto, path);
         }else {
-            fsStorage = new ReadUiFile();
+            fsStorage = new ReadUiFile(confDto);
         }
 
-        try {
-            inputDto = fsStorage.readInputData();
-        }catch (XMLStreamException e) {
-            logger.error(e.getMessage());
-            throw new XMLStreamException(e.getMessage()); //todo
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw new Exception(e.getMessage()); //todo
-        }
-
-        return inputDto;
+        return fsStorage.readInputData();
     }
 
     public void generateExampleDto(){

@@ -2,6 +2,7 @@ package ua.com.pb.biplane.testexercise.bl;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.StateDto;
@@ -17,7 +18,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class OperationsWithCheckTest {
 
-    String CONFIG_FILE = "src/test/resources/config.properties";
     String INPUT_FILE = "src/test/resources/xml/in.xml";
 
     Utils utils;
@@ -28,7 +28,7 @@ public class OperationsWithCheckTest {
     DataController dataController;
     ConfigDto confDto;
 
-    public OperationsWithCheckTest() {
+    public OperationsWithCheckTest() throws IncorrectConfigData {
         utils = new Utils();
         stDto = new StateDto();
         bll = new BuisnLog(new DataController(INPUT_FILE));

@@ -1,13 +1,13 @@
 package ua.com.pb.biplane.testexercise.bl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
-import ua.com.pb.biplane.testexercise.dto.StateDto;
 import ua.com.pb.biplane.testexercise.dto.enumerations.Status;
 import ua.com.pb.biplane.testexercise.dto.enumerations.TypeOfOperations;
-import ua.com.pb.biplane.testexercise.util.Utils;
+
+import java.util.Arrays;
+
 
 /**
  * Created by artur on 09.04.15.
@@ -17,6 +17,7 @@ class Operations extends BaseOperation{
         super();
         confDto = configDto;
     }
+
 
     public InputDto sumStrings(InputDto dto) {
         beforeOperation(dto);
@@ -44,7 +45,7 @@ class Operations extends BaseOperation{
         }else if (confDto.getTypeOfOperations()== TypeOfOperations.SUM_INT_WITHOUT_CHECK){
             sumOperations = new SumWithoutCheck(confDto);
         }else {
-            logger.error("Incorrect input Config data - "+confDto.getTypeOfOperations());
+            logger.error("Incorrect input Config Type data - "+confDto.getTypeOfOperations());
             throw new IllegalArgumentException("Incorrect input Config data - "+confDto.getTypeOfOperations());
         }
         return sumOperations.sumNumbers(dto);

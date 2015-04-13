@@ -1,5 +1,8 @@
 package ua.com.pb.biplane.testexercise.input.fs;
 
+import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
+import ua.com.pb.biplane.testexercise.bl.exceptions.NumberConfigDataTooMatch;
+import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 
 import javax.swing.*;
@@ -13,10 +16,24 @@ import java.io.File;
 public class ReadUiFile extends FsStorage {
 
 
+    public ReadUiFile(ConfigDto conf) {
+        confDto = conf;
+    }
+
     @Override
-    public InputDto readInputData() throws Exception {
+    public InputDto readInputData() throws IncorrectConfigData {
         file = getFile();
-        InputDto dto = persister.read(InputDto.class, file);
+        InputDto dto = null;
+
+        try {
+            dto = persister.read(InputDto.class, file);
+            dto.setValues(getInputValue(dto.getValues()));
+        } catch (NumberConfigDataTooMatch e) {
+            throw new IncorrectConfigData(e.getMessage());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+
         return dto;
     }
 
@@ -28,8 +45,7 @@ public class ReadUiFile extends FsStorage {
         int result = chooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION)
             file = chooser.getSelectedFile();
-        else
-        {
+        else {
             JOptionPane.showMessageDialog(null, "No file selected");
             System.exit(1);
         }
