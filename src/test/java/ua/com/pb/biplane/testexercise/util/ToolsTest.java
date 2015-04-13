@@ -13,12 +13,12 @@ public class ToolsTest {
 
     @Test
     public void testContaisOnlyDigit_true() throws Exception {
-        assertTrue(tools.containsOnlyDigit("dfgdfgdf"));
+        assertTrue(tools.containsOnlyChars("dfgdfgdf"));
     }
 
     @Test
     public void testContaisOnlyDigit_false() throws Exception {
-        assertFalse(tools.containsOnlyDigit("dfgdfd345gdf"));
+        assertFalse(tools.containsOnlyChars("dfgdfd345gdf"));
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ToolsTest {
 
     @Test
     public void testContaisOnlyNumbers_false() throws Exception {
-        assertFalse(tools.containsOnlyDigit("345345jh"));
+        assertFalse(tools.containsOnlyChars("345345jh"));
     }
 
 }

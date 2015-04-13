@@ -1,4 +1,4 @@
-package ua.com.pb.biplane.testexercise.input;
+package ua.com.pb.biplane.testexercise.input.prop;
 
 
 import java.io.*;
@@ -10,9 +10,16 @@ import java.util.Properties;
 
 public class ReadConfig {
     Properties prop = new Properties();
-    InputStre am input = null;
+    InputStream input = null;
     String CONFIG_FILE = "src/main/resources/config.properties";
 
+    /**
+     * Method for read properties object from config.properties file
+     *
+     * @param confPath  Path to config.properties file
+     * @return          Properties object from config.properties file
+     * @throws IOException
+     */
     public Properties getConfig(String confPath) throws IOException {
         if (confPath!=null)
             CONFIG_FILE = confPath;

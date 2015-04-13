@@ -1,66 +1,37 @@
 package ua.com.pb.biplane.testexercise.main;
 
 import com.beust.jcommander.JCommander;
-import ua.com.pb.biplane.testexercise.bl.Blogic;
-import ua.com.pb.biplane.testexercise.dto.InputDto;
-import ua.com.pb.biplane.testexercise.ui.Settings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ua.com.pb.biplane.testexercise.bl.BuisnLog;
+import ua.com.pb.biplane.testexercise.input.DataController;
+import ua.com.pb.biplane.testexercise.util.CLineArgs;
 
 
 /**
  * Created by artur on 08.04.15.
  */
 public class Main {
-    public static void main(String[] args) throws Exception {
-        InputDto dto;
-        Settings settings = new Settings();
-        new JCommander(settings, args);
-        Blogic bl;
+    static private Logger logger = LoggerFactory.getLogger(Main.class);
+    static DataController inputData;
 
-        if (Settings.generate!=null & Settings.path==null){
-            bl = new Blogic(Settings.generate);
-            bl.writeXml(bl.generateExampleDto());
-            System.out.println("Example file was generated at "+Settings.generate);
-        }else{
-            bl = new Blogic(Settings.path);
+    public static void main(String[] args){
+        CLineArgs cla = new CLineArgs();
+        new JCommander(cla, args);
+
+        if (cla.getGenerate()!=null & cla.getPath()==null){
+            inputData = new DataController(cla.getGenerate());
+            inputData.generateExampleDto();
+            System.out.println("Example file was generated at "+ cla.getGenerate());
+        }else {
+            inputData = new DataController(cla.getPath());
         }
 
-        dto = bl.readData();
-
-        switch ((int)dto.getOperation()){
-            case  (int)'+': {
-                System.out.println("----------------------------------------------");
-                bl.runSumNumber(dto);
-                System.out.println("----------------------------------------------");
-                bl.runSumString(dto);
-                System.out.println("----------------------------------------------");
-                break;
-            }
-            case (int)'-':{
-                System.out.println("----------------------------------------------");
-                bl.runSubtractionNumber(dto);
-                System.out.println("----------------------------------------------");
-                break;
-            }
-            case (int)'/':{
-                System.out.println("----------------------------------------------");
-                bl.runDivisionNumber(dto);
-                System.out.println("----------------------------------------------");
-                break;
-            }
-            case (int)'*':{
-                System.out.println("----------------------------------------------");
-                bl.runMultiplicationNumber(dto);
-                System.out.println("----------------------------------------------");
-                break;
-            }
-
-            default:{
-                System.out.println("operation "+dto.getOperation()+" is not permited");
-                System.exit(0);
-            }
-
+        BuisnLog buisnLog = new BuisnLog(inputData);
+        try {
+            buisnLog.doOperation();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
-
-        System.out.println("Finish ! ! !");
     }
 }

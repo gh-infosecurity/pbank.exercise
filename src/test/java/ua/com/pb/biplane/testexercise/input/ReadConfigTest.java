@@ -1,8 +1,8 @@
-package ua.com.pb.biplane.testexercise.bl;
+package ua.com.pb.biplane.testexercise.input;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.pb.biplane.testexercise.input.ReadConfig;
+import ua.com.pb.biplane.testexercise.input.prop.ReadConfig;
 
 import java.io.*;
 import java.util.Properties;
@@ -24,9 +24,8 @@ public class ReadConfigTest{
     @Before
     public void SetUp() throws IOException {
         expectedProp = new Properties();
-        expectedProp.setProperty("database", "localhost");
-        expectedProp.setProperty("dbuser", "mkyong");
-        expectedProp.setProperty("dbpassword", "password");
+        expectedProp.setProperty("operations.type", "SUM_INT_WITH_CHECK");
+        expectedProp.setProperty("elements.number", "5");
         setConfig(expectedProp, CONFIG_FILE);
     }
 
@@ -51,7 +50,7 @@ public class ReadConfigTest{
     public void testGetConfig_false() throws Exception {
 
         Properties prop = readConfig.getConfig(CONFIG_FILE);
-        expectedProp.setProperty("database", "PostgreSQL");
+        expectedProp.setProperty("elements.number", "0");
         assertFalse(prop.equals(expectedProp));
     }
 
@@ -61,8 +60,7 @@ public class ReadConfigTest{
     }
 
     /**
-     * Method writes this property list (key and element pairs) in choosen
-     * output stream.
+     * Method writes this property list (key and element pairs) in resource directory.
      *
      * @param prop      Properties obj fo write
      * @param confPath  File system Path to write Properties file

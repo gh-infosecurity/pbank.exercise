@@ -1,4 +1,4 @@
-package ua.com.pb.biplane.testexercise.dto;
+package ua.com.pb.biplane.testexercise.dto.enumerations;
 
 /**
  * Created by artur on 09.04.15.

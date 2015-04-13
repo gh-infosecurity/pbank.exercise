@@ -1,0 +1,4 @@
+<InputData>
+   <operation>SUM_WITH_CHECK</operation>
+   <values length="5">123, 1q, 2, 3g, 5</values>
+</InputData>

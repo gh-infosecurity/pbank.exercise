@@ -1,64 +1,62 @@
 package ua.com.pb.biplane.testexercise.bl;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
-import ua.com.pb.biplane.testexercise.dto.Status;
+import ua.com.pb.biplane.testexercise.dto.StateDto;
+import ua.com.pb.biplane.testexercise.dto.enumerations.Status;
+import ua.com.pb.biplane.testexercise.input.DataController;
+import ua.com.pb.biplane.testexercise.util.CLineArgs;
 import ua.com.pb.biplane.testexercise.util.Utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by artur on 09.04.15.
  */
 public class OperationsWithCheckTest {
 
-    Utils tools;
+    String CONFIG_FILE = "src/test/resources/config.properties";
+    String INPUT_FILE = "src/test/resources/xml/in.xml";
+
+    Utils utils;
     InputDto dto;
+    StateDto stDto;
     Operations operations;
-    Blogic blogic;
+    BuisnLog bll;
+    DataController dataController;
+    ConfigDto confDto;
 
     public OperationsWithCheckTest() {
-        tools = new Utils();
-        String path = "/tmp/test.xml";
-        blogic = new Blogic(path);
+        utils = new Utils();
+        stDto = new StateDto();
+        bll = new BuisnLog(new DataController(INPUT_FILE));
+        dataController = new DataController(INPUT_FILE);
     }
 
-    @BeforeClass
-    public static void onceExecutedBeforeAll() throws Exception {
-        InputDto dto = new InputDto();
-        dto.setOperation('+');
-        dto.setChecker(true);
-        dto.setStatus(Status.UNKNOW);
-        String[] values = {"123", "1q", "2", "3g", "5"};
-        dto.setValues(values);
-        dto.setResult(Status.NO_RESULT.toString());
-
-
-        String path = "/tmp/test.xml";
-        Blogic blogic = new Blogic(path);
-        blogic.writeXml(dto);
-    }
 
     @Before
     public void setUp() throws Exception {
-        dto = blogic.readData();
+        CLineArgs cla = new CLineArgs();
+        confDto = dataController.getProperties();
+        dataController.generateExampleDto();
+
     }
 
     @Test
     public void testSumNumbers_Check() throws Exception {
-        operations = new OperationsWithCheck();
+        operations = new SumWithCheck(confDto);
         dto = operations.sumNumbers(dto);
-        assertEquals(dto.getResult(), Integer.toString(0));
-        assertEquals(dto.getStatus(), Status.FAIL);
+        assertEquals(stDto.getResult(), Integer.toString(0));
+        assertEquals(stDto.getStatus(), Status.FAIL);
     }
 
     @Test
     public void testSumStrings_Check() throws Exception {
-        operations = new OperationsWithCheck();
+        operations = new SumWithCheck(confDto);
         dto = operations.sumStrings(dto);
-        assertEquals(dto.getResult(), Status.NO_RESULT.toString());
-        assertEquals(dto.getStatus(), Status.FAIL);
+        assertEquals(stDto.getResult(), Status.NO_RESULT.toString());
+        assertEquals(stDto.getStatus(), Status.FAIL);
     }
 }
