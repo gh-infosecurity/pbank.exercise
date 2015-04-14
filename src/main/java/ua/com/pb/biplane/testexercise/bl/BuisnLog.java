@@ -19,7 +19,7 @@ import java.io.IOException;
  * BuisnLog Business Logic Layers
  */
 public class BuisnLog {
-    protected Logger logger = LoggerFactory.getLogger(BuisnLog.class);
+    Logger logger = LoggerFactory.getLogger(BuisnLog.class);
 
     Operations operations;
     ConfigDto configDto ;
@@ -28,6 +28,8 @@ public class BuisnLog {
 
     public BuisnLog(DataController dataController) throws IncorrectConfigData {
         this.dataController = dataController;
+        logger.info("DataController Constr - "+dataController.getInputData(configDto)); //todo
+
         try {
             this.configDto = dataController.getProperties();
         } catch (IllegalAccessException e) {

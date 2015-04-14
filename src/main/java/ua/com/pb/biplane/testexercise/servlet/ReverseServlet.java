@@ -40,18 +40,21 @@ public class ReverseServlet extends HttpServlet {
         String chEncoding = req.getCharacterEncoding();
         int dataLength = new byte[req.getContentLength()].length;
         xml = Utils.getInputXML(in, chEncoding, dataLength);
-        dataController = new DataController(xml);
+
+        String [] obj = {xml};
+        dataController = new DataController(obj);
 
         try {
+            ConfigDto confDto = dataController.getProperties();
             buisnLog = new BuisnLog(dataController);
-            dto = dataController.getInputData(new ConfigDto());
+            dto = dataController.getInputData(confDto);
+            buisnLog.doOperation();
+            dto = Utils.doLoopFilter(dto);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
 
         dto = Utils.doRevers(dto);
-
-
         req.setAttribute("dto", dto);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/input.jsp");

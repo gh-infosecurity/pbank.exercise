@@ -68,7 +68,7 @@ public class Database {
                     + prop.getProperty("operations") + "\'"
                     + ", elements=" + prop.getProperty("elements")
                     + " where id=1";
-            System.out.println(query);
+            System.out.println("query = "+query); //todo
             stmt.execute(query);
 
             stmt.close();

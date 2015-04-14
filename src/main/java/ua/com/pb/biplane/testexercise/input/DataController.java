@@ -16,24 +16,25 @@ import ua.com.pb.biplane.testexercise.util.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 
 /**
  * Created by Baelousov Artur Igorevich. E-mail: g.infosecurity@gmail.com on 12.04.15.
  */
 public class DataController {
-    protected Logger logger = LoggerFactory.getLogger(DataController.class);
+    Logger logger = LoggerFactory.getLogger(DataController.class);
     final String CONFIG_FILE = "src/main/resources/config.properties";
     String inputXml;
     String path;
 
 
     public DataController(String path) {
-        if (!(new File(path).exists())) {
             this.path = path;
-        } else if (Utils.isValidXML(new File(path))) {
-            inputXml = path;
-        }
+    }
+
+    public DataController(String [] xml) {
+        inputXml = xml[0];
     }
 
     /**
@@ -56,16 +57,16 @@ public class DataController {
             if (prop == null) {
                 prop = readConfig.getConfig(CONFIG_FILE);
             }
-            type = TypeOfOperations.valueOf(prop.getProperty("operations.type"));
-            numbers = new Integer(prop.getProperty("elements.number"));
+            type = TypeOfOperations.valueOf(prop.getProperty("operations"));
+            numbers = new Integer(prop.getProperty("elements"));
         } catch (IllegalArgumentException e) {
-
             throw new IllegalAccessException(e.getMessage());
         }
 
         configDto = new ConfigDto();
         configDto.setTypeOfOperations(type);
         configDto.setNumberOfInputElements(numbers);
+
         return configDto;
     }
 

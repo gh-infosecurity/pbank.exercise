@@ -7,6 +7,7 @@ import ua.com.pb.biplane.testexercise.input.DataController;
 import ua.com.pb.biplane.testexercise.util.Utils;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,10 @@ public class InpunServletFilter extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.log(Level.INFO, "doGet");
+
+        ServletOutputStream out = response.getOutputStream();
+        out.write(Integer.parseInt(InpunServletFilter.class.getResource("*").toString()));
+
         request.getRequestDispatcher("/WEB-INF/html/index.html").forward(request, response);
     }
 
@@ -40,16 +45,20 @@ public class InpunServletFilter extends HttpServlet {
         String chEncoding = req.getCharacterEncoding();
         int dataLength = new byte[req.getContentLength()].length;
         xml = Utils.getInputXML(in, chEncoding, dataLength);
-        dataController = new DataController(xml);
+
+        String [] obj = {xml};
+        dataController = new DataController(obj);
 
         try {
+            ConfigDto confDto = dataController.getProperties();
             buisnLog = new BuisnLog(dataController);
-            dto = dataController.getInputData(new ConfigDto());
-            dto = Utils.doLoopFilter(dto);
+            dto = dataController.getInputData(confDto);
+            buisnLog.doOperation();
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
 
+        dto = Utils.doLoopFilter(dto);
         req.setAttribute("dto", dto);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/input.jsp");

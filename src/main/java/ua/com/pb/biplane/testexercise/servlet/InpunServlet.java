@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.lang.ref.SoftReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,26 +36,25 @@ public class InpunServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.log(Level.INFO, "doPost");
         InputDto dto = null;
-        String xml;
+
 
         InputStream in = req.getInputStream();
         String chEncoding = req.getCharacterEncoding();
         int dataLength = new byte[req.getContentLength()].length;
 
-        xml = Utils.getInputXML(in, chEncoding, dataLength);
-        dataController = new DataController(xml);
+        String xml = Utils.getInputXML(in, chEncoding, dataLength);
+        String [] obj = {xml};
+        dataController = new DataController(obj);
 
-        try {
+       try {
+            ConfigDto confDto = dataController.getProperties();
             buisnLog = new BuisnLog(dataController);
-            dto = dataController.getInputData(new ConfigDto());
+            dto = dataController.getInputData(confDto);
             buisnLog.doOperation();
-            dto = Utils.doLoopFilter(dto);
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
 
-
-        dataController = new DataController(xml);
 
         req.setAttribute("dto", dto);
 
