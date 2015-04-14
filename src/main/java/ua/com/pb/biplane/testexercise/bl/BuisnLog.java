@@ -63,10 +63,10 @@ public class BuisnLog {
 
 
 
-    public void runSumNumber(InputDto dto){
+    protected void runSumNumber(InputDto dto){
         operations.sumNumbers(dto);
     }
-    public void runSumString(InputDto dto){
+    protected void runSumString(InputDto dto){
         operations.sumStrings(dto);
     }
 

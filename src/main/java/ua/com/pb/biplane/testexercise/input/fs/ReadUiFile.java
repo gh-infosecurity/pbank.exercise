@@ -4,7 +4,7 @@ import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.bl.exceptions.NumberConfigDataTooMatch;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
-
+import ua.com.pb.biplane.testexercise.input.IStorage;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
@@ -13,7 +13,7 @@ import java.io.File;
 /**
  * Created by artur on 09.04.15.
  */
-public class ReadUiFile extends FsStorage {
+public class ReadUiFile extends FsStorage implements IStorage {
 
 
     public ReadUiFile(ConfigDto conf) {

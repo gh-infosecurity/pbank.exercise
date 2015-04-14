@@ -1,16 +1,16 @@
 package ua.com.pb.biplane.testexercise.servlet;
 
+import ua.com.pb.biplane.testexercise.bl.BuisnLog;
+import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
-import ua.com.pb.biplane.testexercise.input.fs.InputStore.ReadWeb;
+import ua.com.pb.biplane.testexercise.input.DataController;
 import ua.com.pb.biplane.testexercise.util.Utils;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 @WebServlet(name = "reverse", urlPatterns = "/reverse")
 public class ReverseServlet extends HttpServlet {
     Logger logger = Logger.getLogger(ReverseServlet.class.getName());
+    DataController dataController;
+    BuisnLog buisnLog;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.log(Level.INFO, "doGet");
@@ -31,32 +33,23 @@ public class ReverseServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.log(Level.INFO, "doPost");
-        ReadWeb readWeb = new ReadWeb();
         InputDto dto = null;
         String xml;
 
+        InputStream in = req.getInputStream();
+        String chEncoding = req.getCharacterEncoding();
+        int dataLength = new byte[req.getContentLength()].length;
+        xml = Utils.getInputXML(in, chEncoding, dataLength);
+        dataController = new DataController(xml);
+
         try {
-            byte[] xmlData = new byte[req.getContentLength()];
-
-            InputStream sis = req.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(sis);
-
-            bis.read(xmlData, 0, xmlData.length);
-
-            if (req.getCharacterEncoding() != null) {
-                xml = new String(xmlData, req.getCharacterEncoding());
-            } else {
-                xml = new String(xmlData);
-            }
-
-            dto = readWeb.readInputData(xml);
-            dto = Utils.doRevers(dto);
-
-        } catch (IOException e) {
-            logger.log(Level.ALL, e.getMessage());
+            buisnLog = new BuisnLog(dataController);
+            dto = dataController.getInputData(new ConfigDto());
         } catch (Exception e) {
-            logger.log(Level.ALL, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
+
+        dto = Utils.doRevers(dto);
 
 
         req.setAttribute("dto", dto);

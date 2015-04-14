@@ -34,17 +34,5 @@ abstract public class FsStorage {
         }
     }
 
-    protected Boolean isValidXML() throws IOException, ErrorXML {
-        XMLValidator validator = new XMLValidator();
-
-
-        try {
-            validator.validate(file);
-            return true;
-        } catch (IncorrectInputXML e) {
-            throw new ErrorXML(e.getMessage());
-        }
-    }
-
-    abstract public InputDto readInputData() throws IncorrectConfigData, IOException, ErrorXML;
+    abstract public InputDto readInputData() throws Exception;
 }

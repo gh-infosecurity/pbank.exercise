@@ -1,6 +1,6 @@
 package ua.com.pb.biplane.testexercise.servlet;
 
-import ua.com.pb.biplane.testexercise.dao.InitDatabase;
+import ua.com.pb.biplane.testexercise.dao.Database;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,7 +36,7 @@ public class ChangeBdServlet extends HttpServlet {
             prop.setProperty("operations", operations);
         }
 
-        InitDatabase.upadteDB(prop);
+        Database.upadteConfig(prop);
         resp.sendRedirect("/dbconflist");
     }
 }

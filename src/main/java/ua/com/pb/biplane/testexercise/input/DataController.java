@@ -3,15 +3,16 @@ package ua.com.pb.biplane.testexercise.input;
 import org.simpleframework.xml.core.Persister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
+import ua.com.pb.biplane.testexercise.dao.Database;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.enumerations.TypeOfOperations;
-import ua.com.pb.biplane.testexercise.input.fs.FsStorage;
 import ua.com.pb.biplane.testexercise.input.fs.ReadTermFile;
 import ua.com.pb.biplane.testexercise.input.fs.ReadUiFile;
-import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
 import ua.com.pb.biplane.testexercise.input.prop.ReadConfig;
+import ua.com.pb.biplane.testexercise.input.web.WebStorage;
+import ua.com.pb.biplane.testexercise.util.Utils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -23,53 +24,71 @@ import java.util.Properties;
 public class DataController {
     protected Logger logger = LoggerFactory.getLogger(DataController.class);
     final String CONFIG_FILE = "src/main/resources/config.properties";
-    String path = null;
+    String inputXml;
+    String path;
+
 
     public DataController(String path) {
-        this.path = path;
+        if (!(new File(path).exists())) {
+            this.path = path;
+        } else if (Utils.isValidXML(new File(path))) {
+            inputXml = path;
+        }
     }
 
     /**
      * Method Read config.properties file from resources directory
+     *
      * @return
      * @throws IllegalAccessException
      * @throws IOException
      */
     public ConfigDto getProperties() throws IllegalAccessException, IOException {
-        ReadConfig readConfig;
+        ReadConfig readConfig = new ReadConfig();
         ConfigDto configDto;
-        readConfig = new ReadConfig();
+        Properties prop;
         TypeOfOperations type;
-        int n;
+        int numbers;
+
 
         try {
-            Properties prop = readConfig.getConfig(CONFIG_FILE);
+            prop = Database.readConfig();
+            if (prop == null) {
+                prop = readConfig.getConfig(CONFIG_FILE);
+            }
             type = TypeOfOperations.valueOf(prop.getProperty("operations.type"));
-            n = new Integer(prop.getProperty("elements.number"));
+            numbers = new Integer(prop.getProperty("elements.number"));
         } catch (IllegalArgumentException e) {
-            logger.error(e.getMessage());
+
             throw new IllegalAccessException(e.getMessage());
         }
 
         configDto = new ConfigDto();
         configDto.setTypeOfOperations(type);
-        configDto.setNumberOfInputElements(n);
+        configDto.setNumberOfInputElements(numbers);
         return configDto;
     }
 
-    public InputDto getInputData(ConfigDto confDto) throws IncorrectConfigData, IOException, ErrorXML {
-        FsStorage fsStorage;
+    public InputDto getInputData(ConfigDto confDto) {
+        IStorage storage;
 
-        if(path!=null){
-            fsStorage = new ReadTermFile(confDto, path);
-        }else {
-            fsStorage = new ReadUiFile(confDto);
+        if (path != null) {
+            storage = new ReadTermFile(confDto, path);
+        } else if (inputXml != null) {
+            storage = new WebStorage(inputXml);
+        } else {
+            storage = new ReadUiFile(confDto);
         }
 
-        return fsStorage.readInputData();
+        try {
+            return storage.readInputData();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return null;
+        }
     }
 
-    public void generateExampleDto(){
+    public void generateExampleDto() {
         Persister persister = new Persister();
 
         InputDto dto = new InputDto();
@@ -77,7 +96,7 @@ public class DataController {
         dto.setValues(values);
         try {
             persister.write(dto, new File(path));
-            logger.info("Example file was generated at "+path);
+            logger.info("Example file was generated at " + path);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

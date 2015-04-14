@@ -4,19 +4,18 @@ import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.bl.exceptions.NumberConfigDataTooMatch;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
+import ua.com.pb.biplane.testexercise.input.IStorage;
 import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
-
-import javax.xml.stream.XMLStreamException;
+import ua.com.pb.biplane.testexercise.util.Utils;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 
 
 /**
  * Created by artur on 09.04.15.
  */
-public class ReadTermFile extends FsStorage {
+public class ReadTermFile extends FsStorage implements IStorage{
 
     public ReadTermFile(ConfigDto conf, String path) {
         super();
@@ -35,7 +34,7 @@ public class ReadTermFile extends FsStorage {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-        if(isValidXML())
+        if(Utils.isValidXML(file))
             return dto;
         return dto;
     }

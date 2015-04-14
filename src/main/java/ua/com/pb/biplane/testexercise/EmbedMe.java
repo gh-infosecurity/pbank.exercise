@@ -1,7 +1,7 @@
 package ua.com.pb.biplane.testexercise;
 
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
-import ua.com.pb.biplane.testexercise.dao.InitDatabase;
+import ua.com.pb.biplane.testexercise.dao.Database;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Server;
@@ -19,7 +19,7 @@ public class EmbedMe
     {
         int port = 8080;
         Server server = new Server(port);
-        InitDatabase.init();
+        Database.init();
 
         String wardir = "target/embedded-servlet-3.1-1-SNAPSHOT";
 

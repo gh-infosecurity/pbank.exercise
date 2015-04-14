@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 /**
  * Created by Baelousov Artur Igorevich. E-mail: g.infosecurity@gmail.com on 13.04.15.
  */
-public class InitDatabase {
-    static Logger logger = Logger.getLogger(InitDatabase.class.getName());
+public class Database {
+    static Logger logger = Logger.getLogger(Database.class.getName());
     static String DB_DRIVER = "org.hsqldb.jdbcDriver";
 
     private static Connection getDBConnection() {
@@ -57,7 +57,7 @@ public class InitDatabase {
     }
 
 
-    static public void upadteDB(Properties prop) {
+    static public void upadteConfig(Properties prop) {
         Connection dbConnection = getDBConnection();
         Statement stmt;
 
@@ -65,9 +65,9 @@ public class InitDatabase {
             dbConnection.setAutoCommit(false);
             stmt = dbConnection.createStatement();
             String query = "UPDATE CONFIG SET operations=\'"
-                    +prop.getProperty("operations")+"\'"
-                    +", elements="+prop.getProperty("elements")
-                    +" where id=1";
+                    + prop.getProperty("operations") + "\'"
+                    + ", elements=" + prop.getProperty("elements")
+                    + " where id=1";
             System.out.println(query);
             stmt.execute(query);
 
@@ -77,5 +77,27 @@ public class InitDatabase {
         } catch (SQLException ex) {
             Logger.getLogger(EmbedMe.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    static public Properties readConfig() {
+        Properties prop = new Properties();
+        Connection dbConnection = getDBConnection();
+        Statement stmt;
+
+        try {
+            stmt = getDBConnection().createStatement();
+            ResultSet rs = stmt.executeQuery("select * from CONFIG;");
+            while (rs.next()) {
+                prop.setProperty("elements", rs.getString("elements"));
+                prop.setProperty("operations", rs.getString("operations"));
+            }
+
+            rs.close();
+            stmt.close();
+            dbConnection.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmbedMe.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return prop;
     }
 }
