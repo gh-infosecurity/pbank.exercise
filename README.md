@@ -1,10 +1,13 @@
-1. mvn clean install
-2. java -jar target/testexercise-1.0-SNAPSHOT-jar-with-dependencies.jar
-3. choose file in dialogBoxFile
+mvn clean install exec:exec
 
-or
-3 java -jar target/testexercise-1.0-SNAPSHOT-jar-with-dependencies.jar -file path/to/exist/xml/file
+http://127.0.0.1:8080/
 
-java -jar target/testexercise-1.0-SNAPSHOT-jar-with-dependencies.jar -gen path/to/generate/example/xml/file
+InputData:
+<InputData>
+   <values length="5">123, 1q, 2, 3g, 5, 123, 2, 3g</values>
+</InputData>
 
-5. enjoy . . .
+
+POST http://127.0.0.1:8080/filter
+POST http://127.0.0.1:8080/reverse
+POST http://127.0.0.1:8080/input
