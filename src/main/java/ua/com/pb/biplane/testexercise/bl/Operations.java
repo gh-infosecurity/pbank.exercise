@@ -26,13 +26,8 @@ class Operations extends BaseOperation {
         beforeOperation(dto);
 
         StateDto stDto = new StateDto();
-        String[] dataArray = dto.getValues();
-        String tmp = "[";
-        String delimeter = "\t";
-        for (String s : dataArray) {
-            tmp = tmp.concat(delimeter).concat(s);
-        }
-        stDto.setResult(tmp + "]");
+        String result = valuesAsString(dto.getValues());
+        stDto.setResult(result);
         stDto.setStatus(Status.OK);
 
         afterOperation(stDto);
@@ -59,16 +54,41 @@ class Operations extends BaseOperation {
 
 
     public InputDto runLoopFilter(InputDto dto) {
+        beforeOperation(dto);
+
+        StateDto stDto = new StateDto();
         Set<String> set = new HashSet<>(Arrays.asList(dto.getValues()));
         dto.setValues(set.toArray(new String[set.size()]));
+
+        stDto.setStatus(Status.OK);
+        stDto.setResult(valuesAsString(dto.getValues()));
+        afterOperation(stDto);
+
         return dto;
     }
 
 
     public InputDto runReverse(InputDto dto) {
+        beforeOperation(dto);
+
+        StateDto stDto = new StateDto();
         ArrayList<String> list = new ArrayList<>(Arrays.asList(dto.getValues()));
         Collections.reverse(list);
         dto.setValues(list.toArray(new String[list.size()]));
+
+        stDto.setStatus(Status.OK);
+        stDto.setResult(valuesAsString(dto.getValues()));
+        afterOperation(stDto);
         return dto;
+    }
+
+    private String valuesAsString(String[] arr){
+        String result = "[";
+        String delimeter = " ";
+        for (String s : arr) {
+            result = result.concat(delimeter).concat(s);
+        }
+        result=result.concat("]");
+        return result;
     }
 }
