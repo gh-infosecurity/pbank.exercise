@@ -10,3 +10,6 @@ Choose Operation at
 http://127.0.0.1:8080/change
 
 POST http://127.0.0.1:8080/input
+
+
+&lt;form method=&quot;post&quot; action=&quot;file-upload-1.htm&quot; name=&quot;submit&quot; enctype=&quot;multipart/form-data&quot;&gt;<br/>  &lt;input type=&quot;file&quot; name=&quot;fileField&quot;&gt;&lt;br /&gt;&lt;br /&gt;<br/>  &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Submit&quot;&gt;<br/>&lt;/form&gt;
