@@ -3,16 +3,11 @@ package ua.com.pb.biplane.testexercise.input.fs;
 import org.simpleframework.xml.core.Persister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.bl.exceptions.NumberConfigDataTooMatch;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
-import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
-import ua.com.pb.biplane.testexercise.util.XMLValidator;
-import ua.com.pb.biplane.testexercise.util.exceptions.IncorrectInputXML;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
 /**

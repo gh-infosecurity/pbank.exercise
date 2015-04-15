@@ -3,9 +3,8 @@ package ua.com.pb.biplane.testexercise.main;
 import com.beust.jcommander.JCommander;
 import ua.com.pb.biplane.testexercise.bl.BuisnLog;
 import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
-import ua.com.pb.biplane.testexercise.bl.exceptions.NumberConfigDataTooMatch;
 import ua.com.pb.biplane.testexercise.input.DataController;
-import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
+import ua.com.pb.biplane.testexercise.input.exceptions.ErrorXML;
 import ua.com.pb.biplane.testexercise.util.CLineArgs;
 
 import java.io.IOException;

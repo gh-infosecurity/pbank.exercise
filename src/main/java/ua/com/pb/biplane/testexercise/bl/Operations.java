@@ -1,10 +1,9 @@
 package ua.com.pb.biplane.testexercise.bl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.StateDto;
+import ua.com.pb.biplane.testexercise.dto.UnitedDto;
 import ua.com.pb.biplane.testexercise.dto.enumerations.Status;
 import ua.com.pb.biplane.testexercise.dto.enumerations.TypeOfOperations;
 
@@ -15,14 +14,15 @@ import java.util.*;
  * Created by artur on 09.04.15.
  */
 class Operations extends BaseOperation {
-
+    UnitedDto unDto;
 
     public Operations(ConfigDto configDto) {
         super();
         confDto = configDto;
+        unDto = new UnitedDto();
     }
 
-    public InputDto sumStrings(InputDto dto) {
+    public UnitedDto sumStrings(InputDto dto) {
         beforeOperation(dto);
 
         StateDto stDto = new StateDto();
@@ -31,29 +31,32 @@ class Operations extends BaseOperation {
         stDto.setStatus(Status.OK);
 
         afterOperation(stDto);
-        return dto;
+
+        unDto.setConfDto(confDto);
+        unDto.setStDato(stDto);
+        unDto.setInputDto(dto);
+
+        return unDto;
     }
 
-    public InputDto sumNumbers(InputDto dto) {
+    public UnitedDto sumNumbers(InputDto dto) {
 
         beforeOperation(dto);
         SumOperations sumOperations;
 
         if (confDto.getTypeOfOperations() == TypeOfOperations.SUM_INT_WITH_CHECK) {
             sumOperations = new SumWithCheck(confDto);
-        } else if (confDto.getTypeOfOperations() == TypeOfOperations.SUM_INT_WITHOUT_CHECK) {
+        } else{
             sumOperations = new SumWithoutCheck(confDto);
-        } else {
-            logger.error("Incorrect input Config Type data - " + confDto.getTypeOfOperations());
-            throw new IllegalArgumentException("Incorrect input Config data - " + confDto.getTypeOfOperations());
         }
 
-        dto = sumOperations.sumNumbers(dto);
-        return dto;
+        unDto = sumOperations.sumNumbers(dto);
+
+        return unDto;
     }
 
 
-    public InputDto runLoopFilter(InputDto dto) {
+    public UnitedDto runLoopFilter(InputDto dto) {
         beforeOperation(dto);
 
         StateDto stDto = new StateDto();
@@ -64,11 +67,15 @@ class Operations extends BaseOperation {
         stDto.setResult(valuesAsString(dto.getValues()));
         afterOperation(stDto);
 
-        return dto;
+        unDto.setConfDto(confDto);
+        unDto.setStDato(stDto);
+        unDto.setInputDto(dto);
+
+        return unDto;
     }
 
 
-    public InputDto runReverse(InputDto dto) {
+    public UnitedDto runReverse(InputDto dto) {
         beforeOperation(dto);
 
         StateDto stDto = new StateDto();
@@ -79,7 +86,12 @@ class Operations extends BaseOperation {
         stDto.setStatus(Status.OK);
         stDto.setResult(valuesAsString(dto.getValues()));
         afterOperation(stDto);
-        return dto;
+
+        unDto.setConfDto(confDto);
+        unDto.setStDato(stDto);
+        unDto.setInputDto(dto);
+
+        return unDto;
     }
 
     private String valuesAsString(String[] arr){

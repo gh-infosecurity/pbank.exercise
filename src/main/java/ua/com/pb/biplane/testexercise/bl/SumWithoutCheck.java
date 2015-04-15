@@ -3,6 +3,7 @@ package ua.com.pb.biplane.testexercise.bl;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.StateDto;
+import ua.com.pb.biplane.testexercise.dto.UnitedDto;
 import ua.com.pb.biplane.testexercise.dto.enumerations.Status;
 import ua.com.pb.biplane.testexercise.util.Utils;
 
@@ -18,7 +19,7 @@ public class SumWithoutCheck extends SumOperations{
     }
 
     @Override
-    public InputDto sumNumbers(InputDto dto) {
+    public UnitedDto sumNumbers(InputDto dto) {
 
         ArrayList<String> tmpList = new ArrayList<>();
         String [] dataArray = dto.getValues();
@@ -37,7 +38,12 @@ public class SumWithoutCheck extends SumOperations{
 
         afterOperation(stDto);
 
-        return dto;
+        unDto = new UnitedDto();
+        unDto.setConfDto(confDto);
+        unDto.setStDato(stDto);
+        unDto.setInputDto(dto);
+
+        return unDto;
     }
 
 }

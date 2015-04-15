@@ -1,17 +1,19 @@
 package ua.com.pb.biplane.testexercise.dao;
 
-import ua.com.pb.biplane.testexercise.EmbedMe;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ua.com.pb.biplane.testexercise.EmbedMe;
 import java.sql.*;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+
 
 /**
  * Created by Baelousov Artur Igorevich. E-mail: g.infosecurity@gmail.com on 13.04.15.
  */
 public class Database {
-    static Logger logger = Logger.getLogger(Database.class.getName());
+    static Logger logger = LoggerFactory.getLogger(Database.class);
     static String DB_DRIVER = "org.hsqldb.jdbcDriver";
 
     private static Connection getDBConnection() {
@@ -19,7 +21,7 @@ public class Database {
         try {
             Class.forName(DB_DRIVER);
         } catch (ClassNotFoundException e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            logger.error(e.getMessage());
         }
         try {
             dbConnection = DriverManager.getConnection("jdbc:hsqldb:file:/tmp/dbname:SA");
@@ -40,16 +42,18 @@ public class Database {
             stmt = dbConnection.createStatement();
 
             stmt.execute("DROP TABLE IF EXISTS CONFIG");
-            stmt.execute("CREATE TABLE CONFIG(id int primary key, operations varchar(50), elements int)");
+            stmt.execute("DROP TABLE IF EXISTS LOGS");
+            stmt.execute("CREATE TABLE CONFIG(id int primary key, operations VARCHAR(50), elements int)");
+            stmt.execute("CREATE TABLE LOGS(id int primary key, operations VARCHAR(50), elements INT, status VARCHAR (50), result VARCHAR(255))");
             stmt.execute("INSERT INTO CONFIG(id, operations, elements) VALUES(1, 'SUM_STR', 1)");
 
             stmt.close();
             dbConnection.commit();
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Exception Message " + e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Exception Message " + e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
         } finally {
             dbConnection.close();
         }
@@ -68,14 +72,14 @@ public class Database {
                     + prop.getProperty("operations") + "\'"
                     + ", elements=" + prop.getProperty("elements")
                     + " where id=1";
-            System.out.println("query = "+query); //todo
+            logger.info(query);
             stmt.execute(query);
 
             stmt.close();
             dbConnection.commit();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(EmbedMe.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
     }
 
@@ -96,7 +100,7 @@ public class Database {
             stmt.close();
             dbConnection.commit();
         } catch (SQLException ex) {
-            Logger.getLogger(EmbedMe.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
         return prop;
     }

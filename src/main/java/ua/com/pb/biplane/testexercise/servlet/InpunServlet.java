@@ -3,6 +3,7 @@ package ua.com.pb.biplane.testexercise.servlet;
 import ua.com.pb.biplane.testexercise.bl.BuisnLog;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
+import ua.com.pb.biplane.testexercise.dto.UnitedDto;
 import ua.com.pb.biplane.testexercise.input.DataController;
 import ua.com.pb.biplane.testexercise.util.Utils;
 import javax.servlet.RequestDispatcher;
@@ -35,7 +36,7 @@ public class InpunServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.log(Level.INFO, "doPost");
-        InputDto dto = null;
+        UnitedDto unDto = null;
 
 
         InputStream in = req.getInputStream();
@@ -47,16 +48,13 @@ public class InpunServlet extends HttpServlet {
         dataController = new DataController(obj);
 
        try {
-            ConfigDto confDto = dataController.getProperties();
             buisnLog = new BuisnLog(dataController);
-            dto = dataController.getInputData(confDto);
-            dto = buisnLog.doOperation();
+            unDto = buisnLog.doOperation();
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
 
-
-        req.setAttribute("dto", dto);
+        req.setAttribute("dto", unDto);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
         dispatcher.forward(req, resp);

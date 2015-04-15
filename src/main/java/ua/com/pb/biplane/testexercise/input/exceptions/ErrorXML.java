@@ -1,4 +1,4 @@
-package ua.com.pb.biplane.testexercise.input.fs.exceptions;
+package ua.com.pb.biplane.testexercise.input.exceptions;
 
 /**
  * Created by Baelousov Artur Igorevich. E-mail: g.infosecurity@gmail.com on 13.04.15.

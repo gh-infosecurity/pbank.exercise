@@ -5,7 +5,7 @@ import ua.com.pb.biplane.testexercise.bl.exceptions.NumberConfigDataTooMatch;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.input.IStorage;
-import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
+import ua.com.pb.biplane.testexercise.input.exceptions.ErrorXML;
 import ua.com.pb.biplane.testexercise.util.Utils;
 import java.io.File;
 import java.io.IOException;

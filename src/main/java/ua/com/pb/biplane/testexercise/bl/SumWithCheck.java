@@ -1,10 +1,12 @@
 package ua.com.pb.biplane.testexercise.bl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.StateDto;
+import ua.com.pb.biplane.testexercise.dto.UnitedDto;
 import ua.com.pb.biplane.testexercise.dto.enumerations.Status;
-import ua.com.pb.biplane.testexercise.dto.enumerations.TypeOfOperations;
 import ua.com.pb.biplane.testexercise.util.Utils;
 
 import java.util.ArrayList;
@@ -13,14 +15,18 @@ import java.util.ArrayList;
  * Created by artur on 09.04.15.
  */
 public class SumWithCheck extends SumOperations {
+    Logger logger = LoggerFactory.getLogger(SumWithCheck.class);
 
 
     public SumWithCheck(ConfigDto configDto) {
         super(configDto);
+        unDto = new UnitedDto();
     }
 
     @Override
-    public InputDto sumNumbers(InputDto dto) {
+    public UnitedDto sumNumbers(InputDto dto) {
+
+        logger.error("sumNumbers SumWithCheck Method");
 
         ArrayList<String> tmpList = new ArrayList<>();
         String[] dataArray = dto.getValues();
@@ -39,12 +45,17 @@ public class SumWithCheck extends SumOperations {
                 stDto.setStatus(Status.FAIL);
                 stDto.setResult(Integer.toString(0));
                 dto.setValues(new String[0]);
-                logger.error("Input data set consist Numbers"); //todo
+                logger.error("Input data set consist Numbers");
                 break;
             }
         }
 
         afterOperation(stDto);
-        return dto;
+
+        unDto.setConfDto(confDto);
+        unDto.setStDato(stDto);
+        unDto.setInputDto(dto);
+
+        return unDto;
     }
 }

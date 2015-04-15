@@ -6,8 +6,9 @@ import ua.com.pb.biplane.testexercise.bl.exceptions.IllegalOperationTypeConfigDa
 import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
+import ua.com.pb.biplane.testexercise.dto.UnitedDto;
 import ua.com.pb.biplane.testexercise.input.DataController;
-import ua.com.pb.biplane.testexercise.input.fs.exceptions.ErrorXML;
+import ua.com.pb.biplane.testexercise.input.exceptions.ErrorXML;
 
 import java.io.IOException;
 
@@ -21,14 +22,15 @@ import java.io.IOException;
 public class BuisnLog {
     Logger logger = LoggerFactory.getLogger(BuisnLog.class);
 
+    DataController dataController;
     Operations operations;
     ConfigDto configDto ;
-    DataController dataController;
+    UnitedDto unDto;
     InputDto inDto;
+
 
     public BuisnLog(DataController dataController) throws IncorrectConfigData {
         this.dataController = dataController;
-        logger.info("DataController Constr - "+dataController.getInputData(configDto)); //todo
 
         try {
             this.configDto = dataController.getProperties();
@@ -39,31 +41,30 @@ public class BuisnLog {
         }
     }
 
-    public InputDto doOperation() throws IncorrectConfigData, IOException, ErrorXML {
+    public UnitedDto doOperation() throws IncorrectConfigData, IOException, ErrorXML {
         operations = new Operations(configDto);
-        InputDto dto;
 
         switch (configDto.getTypeOfOperations()){
             case SUM_INT_WITHOUT_CHECK:
             case SUM_INT_WITH_CHECK:{
                 inDto = dataController.getInputData(configDto);
-                dto = runSumNumber();
+                unDto = runSumNumber();
                 break;
             }
 
             case SUM_STR:{
                 inDto = dataController.getInputData(configDto);
-                dto = runSumString();
+                unDto = runSumString();
                 break;
             }
             case REVERSE:{
                 inDto = dataController.getInputData(configDto);
-                dto = runReverse();
+                unDto = runReverse();
                 break;
             }
             case FILTER:{
                 inDto = dataController.getInputData(configDto);
-                dto = runFilter();
+                unDto = runFilter();
                 break;
             }
             default:{
@@ -71,26 +72,20 @@ public class BuisnLog {
                 throw new IllegalArgumentException("Unsupported Operation");
             }
         }
-        return dto;
+        return unDto;
     }
 
-    private InputDto runFilter() {
-        operations.runLoopFilter(inDto);
-        return inDto;
+    private UnitedDto runFilter() {
+        return operations.runLoopFilter(inDto);
     }
-
-    private InputDto runReverse() {
-        operations.runReverse(inDto);
-        return inDto;
+    private UnitedDto runReverse() {
+        return operations.runReverse(inDto);
     }
-
-    protected InputDto runSumNumber(){
-        operations.sumNumbers(inDto);
-        return inDto;
+    protected UnitedDto runSumNumber(){
+        return operations.sumNumbers(inDto);
     }
-    protected InputDto runSumString(){
-        operations.sumStrings(inDto);
-        return inDto;
+    protected UnitedDto runSumString(){
+        return operations.sumStrings(inDto);
     }
 
 }
