@@ -50,7 +50,7 @@ public class InpunServlet extends HttpServlet {
             ConfigDto confDto = dataController.getProperties();
             buisnLog = new BuisnLog(dataController);
             dto = dataController.getInputData(confDto);
-            buisnLog.doOperation();
+            dto = buisnLog.doOperation();
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }

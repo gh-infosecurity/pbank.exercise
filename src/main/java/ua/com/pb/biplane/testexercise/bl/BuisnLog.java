@@ -39,20 +39,31 @@ public class BuisnLog {
         }
     }
 
-    public void doOperation() throws IncorrectConfigData, IOException, ErrorXML {
+    public InputDto doOperation() throws IncorrectConfigData, IOException, ErrorXML {
         operations = new Operations(configDto);
+        InputDto dto;
 
         switch (configDto.getTypeOfOperations()){
             case SUM_INT_WITHOUT_CHECK:
             case SUM_INT_WITH_CHECK:{
                 inDto = dataController.getInputData(configDto);
-                runSumNumber(inDto);
+                dto = runSumNumber();
                 break;
             }
 
             case SUM_STR:{
                 inDto = dataController.getInputData(configDto);
-                runSumString(inDto);
+                dto = runSumString();
+                break;
+            }
+            case REVERSE:{
+                inDto = dataController.getInputData(configDto);
+                dto = runReverse();
+                break;
+            }
+            case FILTER:{
+                inDto = dataController.getInputData(configDto);
+                dto = runFilter();
                 break;
             }
             default:{
@@ -60,16 +71,26 @@ public class BuisnLog {
                 throw new IllegalArgumentException("Unsupported Operation");
             }
         }
+        return dto;
     }
 
-
-
-
-    protected void runSumNumber(InputDto dto){
-        operations.sumNumbers(dto);
+    private InputDto runFilter() {
+        operations.runLoopFilter(inDto);
+        return inDto;
     }
-    protected void runSumString(InputDto dto){
-        operations.sumStrings(dto);
+
+    private InputDto runReverse() {
+        operations.runReverse(inDto);
+        return inDto;
+    }
+
+    protected InputDto runSumNumber(){
+        operations.sumNumbers(inDto);
+        return inDto;
+    }
+    protected InputDto runSumString(){
+        operations.sumStrings(inDto);
+        return inDto;
     }
 
 }

@@ -7,4 +7,6 @@ public enum TypeOfOperations {
     SUM_INT_WITH_CHECK,
     SUM_INT_WITHOUT_CHECK,
     SUM_STR,
+    REVERSE,
+    FILTER
 }

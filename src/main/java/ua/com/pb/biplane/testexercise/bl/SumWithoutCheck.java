@@ -6,12 +6,12 @@ import ua.com.pb.biplane.testexercise.dto.StateDto;
 import ua.com.pb.biplane.testexercise.dto.enumerations.Status;
 import ua.com.pb.biplane.testexercise.util.Utils;
 
+import java.util.ArrayList;
+
 /**
  * Created by artur on 09.04.15.
  */
 public class SumWithoutCheck extends SumOperations{
-    Utils tools = new Utils();
-    StateDto stDto = new StateDto();
 
     public SumWithoutCheck(ConfigDto configDto) {
         super(configDto);
@@ -20,18 +20,23 @@ public class SumWithoutCheck extends SumOperations{
     @Override
     public InputDto sumNumbers(InputDto dto) {
 
-        beforeOperation(dto);
-
+        ArrayList<String> tmpList = new ArrayList<>();
         String [] dataArray = dto.getValues();
+        StateDto stDto = new StateDto();
+
         int tmp = 0;
         for (String s: dataArray){
-            if (tools.containsOnlyNumbers(s))
+            if (Utils.containsOnlyNumbers(s)) {
+                tmpList.add(s);
                 tmp += new Integer(s);
+            }
         }
         stDto.setResult(Integer.toString(tmp));
         stDto.setStatus(Status.OK);
+        dto.setValues(tmpList.toArray(new String[tmpList.size()]));
 
         afterOperation(stDto);
+
         return dto;
     }
 

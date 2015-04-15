@@ -11,10 +11,7 @@ import ua.com.pb.biplane.testexercise.util.Utils;
  * Created by Baelousov Artur Igorevich. E-mail: g.infosecurity@gmail.com on 13.04.15.
  */
 public class BaseOperation {
-    protected Logger logger = LoggerFactory.getLogger(Operations.class);
-
-    protected Utils utils = new Utils();
-    protected StateDto stDto = new StateDto();
+    Logger logger = LoggerFactory.getLogger(BaseOperation.class);
     protected ConfigDto confDto;
     private long start;
     private long finish;
@@ -26,6 +23,6 @@ public class BaseOperation {
 
     protected void afterOperation(StateDto stDto){
         finish = System.currentTimeMillis();
-        logger.info("Status Operation {} is {}, Result {} in {} Millis.", confDto.getTypeOfOperations(), stDto.getStatus(), stDto.getResult(),  (finish - start));
+        logger.info("Status Operation {} is {}, Result {} in {} Sec.", confDto.getTypeOfOperations(), stDto.getStatus(), stDto.getResult(),  (finish - start)/1000);
     }
 }
