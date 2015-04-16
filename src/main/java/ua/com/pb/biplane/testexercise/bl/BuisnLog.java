@@ -4,13 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.com.pb.biplane.testexercise.bl.exceptions.IllegalOperationTypeConfigData;
 import ua.com.pb.biplane.testexercise.bl.exceptions.IncorrectConfigData;
+import ua.com.pb.biplane.testexercise.dao.LogDAO;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
+import ua.com.pb.biplane.testexercise.dto.LogDto;
 import ua.com.pb.biplane.testexercise.dto.UnitedDto;
 import ua.com.pb.biplane.testexercise.input.DataController;
 import ua.com.pb.biplane.testexercise.input.exceptions.ErrorXML;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by artur on 09.04.15.
@@ -29,6 +32,8 @@ public class BuisnLog {
     InputDto inDto;
 
 
+    public BuisnLog() {}
+
     public BuisnLog(DataController dataController) throws IncorrectConfigData {
         this.dataController = dataController;
 
@@ -39,6 +44,7 @@ public class BuisnLog {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
+
     }
 
     public UnitedDto doOperation() throws IncorrectConfigData, IOException, ErrorXML {
@@ -75,17 +81,32 @@ public class BuisnLog {
         return unDto;
     }
 
+
+
     private UnitedDto runFilter() {
         return operations.runLoopFilter(inDto);
     }
+
     private UnitedDto runReverse() {
         return operations.runReverse(inDto);
     }
+
     protected UnitedDto runSumNumber(){
         return operations.sumNumbers(inDto);
     }
+
     protected UnitedDto runSumString(){
         return operations.sumStrings(inDto);
+    }
+
+    public void logOperation(UnitedDto unDto) {
+        LogDAO logDAO = new LogDAO();
+        logDAO.createLog(unDto);
+    }
+
+    public ArrayList<LogDto> getLogOperation() {
+        LogDAO logDAO = new LogDAO();
+        return logDAO.readLogs();
     }
 
 }

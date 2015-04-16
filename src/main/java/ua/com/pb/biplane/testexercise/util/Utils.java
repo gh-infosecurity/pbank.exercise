@@ -2,6 +2,11 @@ package ua.com.pb.biplane.testexercise.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.com.pb.biplane.testexercise.dao.ConfigDAO;
+import ua.com.pb.biplane.testexercise.dto.ConfigDto;
+import ua.com.pb.biplane.testexercise.dto.InputDto;
+import ua.com.pb.biplane.testexercise.dto.StateDto;
+import ua.com.pb.biplane.testexercise.dto.UnitedDto;
 import ua.com.pb.biplane.testexercise.util.exceptions.IncorrectInputXML;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -66,5 +71,13 @@ public class Utils {
             logger.error(e.getMessage());
             return false;
         }
+    }
+
+    public static UnitedDto getUnitedDto(InputDto inDto, ConfigDto confDto, StateDto stDto){
+        UnitedDto unitedDto = new UnitedDto();
+        unitedDto.setInputDto(inDto);
+        unitedDto.setConfDto(confDto);
+        unitedDto.setStDato(stDto);
+        return unitedDto;
     }
 }

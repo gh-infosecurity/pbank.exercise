@@ -9,7 +9,7 @@
     StateDto sdto;
     InputDto inDto;
     ConfigDto confDto;
-    int colspan;
+    int collspan;
 %>
 <%
     if (request.getParameter("dto") == null) {
@@ -17,12 +17,10 @@
         sdto = unDto.getStDato();
         inDto = unDto.getInputDto();
         confDto = unDto.getConfDto();
-        colspan = inDto.getValues().length;
+        collspan = inDto.getValues().length;
     } else {
         out.println("<b>Oooops getAttribute dto is null </b>!");
     }
-
-
 %>
 
 <!DOCTYPE html>
@@ -32,7 +30,7 @@
 <table width="80%" border="1">
 
     <tr>
-        <td colspan=<%=colspan%> height="30px" align="center"> Input Ddata</td>
+        <td colspan=<%=collspan%> height="30px" align="center"> Input Ddata</td>
     </tr>
     <tr>
         <c-rt:forEach var="type" items="<%= unDto.getInputDto().getValues() %>">
@@ -41,17 +39,17 @@
 
     </tr>
     <tr>
-        <td colspan=<%=colspan%> align="center">
+        <td colspan=<%=collspan%> align="left">
             Finish with <%=sdto.getStatus()%>. Result - <%=sdto.getResult()%>
         </td>
     </tr>
     <tr>
-        <td colspan=<%=colspan%> align="left">
+        <td colspan=<%=collspan%> align="left">
             TypeOfOperations <%=confDto.getTypeOfOperations()%>
         </td>
     </tr>
     <tr>
-        <td colspan=<%=colspan%> align="left">
+        <td colspan=<%=collspan%> align="left">
             NumberOfInputElements = <%=confDto.getNumberOfInputElements()%>
         </td>
     </tr>

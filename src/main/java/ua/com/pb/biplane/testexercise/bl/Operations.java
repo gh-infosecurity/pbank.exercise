@@ -95,12 +95,11 @@ class Operations extends BaseOperation {
     }
 
     private String valuesAsString(String[] arr){
-        String result = "[";
+        String result = "";
         String delimeter = " ";
         for (String s : arr) {
             result = result.concat(delimeter).concat(s);
         }
-        result=result.concat("]");
         return result;
     }
 }

@@ -10,7 +10,7 @@ import ua.com.pb.biplane.testexercise.input.IStorage;
  * Created by artur on 08.04.15.
  */
  public class WebStorage implements IStorage{
-    Logger logger = LoggerFactory.getLogger(WebStorage.class);
+
     protected Persister persister = new Persister();
     private InputDto dto = null;
     private String xml;

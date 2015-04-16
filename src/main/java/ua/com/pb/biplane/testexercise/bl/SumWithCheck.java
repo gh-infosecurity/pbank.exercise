@@ -26,8 +26,6 @@ public class SumWithCheck extends SumOperations {
     @Override
     public UnitedDto sumNumbers(InputDto dto) {
 
-        logger.error("sumNumbers SumWithCheck Method");
-
         ArrayList<String> tmpList = new ArrayList<>();
         String[] dataArray = dto.getValues();
         StateDto stDto = new StateDto();

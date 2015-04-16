@@ -1,6 +1,7 @@
 package ua.com.pb.biplane.testexercise.servlet;
 
-import ua.com.pb.biplane.testexercise.dao.Database;
+import ua.com.pb.biplane.testexercise.dao.ConfigDAO;
+import ua.com.pb.biplane.testexercise.dao.DAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 @WebServlet(name = "change", urlPatterns = "/change")
 public class ChangeBdServlet extends HttpServlet {
     Logger logger = Logger.getLogger(ChangeBdServlet.class.getName());
+    ConfigDAO confDAO;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.log(Level.INFO, "doGet");
@@ -28,6 +30,7 @@ public class ChangeBdServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.log(Level.INFO, "doPost");
         Properties prop = new Properties();
+        confDAO = new ConfigDAO();
         String elements = req.getParameter("elements");
         String operations = req.getParameter("operations");
 
@@ -36,7 +39,7 @@ public class ChangeBdServlet extends HttpServlet {
             prop.setProperty("operations", operations);
         }
 
-        Database.upadteConfig(prop);
+        confDAO.upadteConfig(prop);
         resp.sendRedirect("/dbconflist");
     }
 }

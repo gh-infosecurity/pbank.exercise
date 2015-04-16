@@ -3,7 +3,7 @@ package ua.com.pb.biplane.testexercise.input;
 import org.simpleframework.xml.core.Persister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.com.pb.biplane.testexercise.dao.Database;
+import ua.com.pb.biplane.testexercise.dao.ConfigDAO;
 import ua.com.pb.biplane.testexercise.dto.ConfigDto;
 import ua.com.pb.biplane.testexercise.dto.InputDto;
 import ua.com.pb.biplane.testexercise.dto.enumerations.TypeOfOperations;
@@ -11,12 +11,10 @@ import ua.com.pb.biplane.testexercise.input.fs.ReadTermFile;
 import ua.com.pb.biplane.testexercise.input.fs.ReadUiFile;
 import ua.com.pb.biplane.testexercise.input.prop.ReadConfig;
 import ua.com.pb.biplane.testexercise.input.web.WebStorage;
-import ua.com.pb.biplane.testexercise.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
 
 
 /**
@@ -46,14 +44,15 @@ public class DataController {
      */
     public ConfigDto getProperties() throws IllegalAccessException, IOException {
         ReadConfig readConfig = new ReadConfig();
+        ConfigDAO dao = new ConfigDAO();
+        TypeOfOperations type;
         ConfigDto configDto;
         Properties prop;
-        TypeOfOperations type;
         int numbers;
 
 
         try {
-            prop = Database.readConfig();
+            prop = dao.readConfig();
             if (prop == null) {
                 prop = readConfig.getConfig(CONFIG_FILE);
             }
